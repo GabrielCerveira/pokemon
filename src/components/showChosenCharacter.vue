@@ -1,23 +1,30 @@
 <template>
-  <div class="row q-col-gutter-xs q-my-xs rounded-borders bg-pink ">
-    <div class="col-auto">
-      <div class="text-center flex flex-center text-whitePokebola">{{ title }}</div>
+  <div class="row q-col-gutter-xs q-my-xs rounded-borders bg-pink flex">
+    <div v-if="generation" class="q-pa-sm">
+      <div class="text-center flex flex-center text-whitePokebola">Geração</div>
+      <div  class="circle bg-red text-center flex flex-center text-whitePokebola">{{ generation }}</div>
+    </div>
+    <div v-if="img" class="q-pa-sm">
+      <div class="text-center flex flex-center text-whitePokebola"
+      style="max-width: 50px"
+      >{{ title }}</div>
       <div class="circle bg-red text-center flex flex-center text-whitePokebola">
-      <img v-if="img"
+      <img
+      class="absolute"
       :src="img"
       style="height: 60px; width: 60px"
       />
       </div>
     </div>
-    <div class="col-auto">
+    <div v-if="value_string" class="q-pa-sm">
+      <div class="text-center flex flex-center text-whitePokebola">Tipo</div>
+      <div  class="circle bg-red text-center flex flex-center text-whitePokebola">{{ value_string }}</div>
+    </div>
+    <div class="q-pa-sm">
       <div class="text-center flex flex-center text-whitePokebola">Tipo</div>
       <div v-if="value_string" class="circle bg-red text-center flex flex-center text-whitePokebola">{{ value_string }}</div>
     </div>
-    <div class="col-auto">
-      <div class="text-center flex flex-center text-whitePokebola">Tipo</div>
-      <div v-if="value_string" class="circle bg-red text-center flex flex-center text-whitePokebola">{{ value_string }}</div>
-    </div>
-    <div v-if="value_number" class="col-auto">
+    <div v-if="value_number" class="q-pa-sm">
       <div class="text-center flex flex-center text-whitePokebola">Peso</div>
       <div  class="circle bg-red text-center flex flex-center text-whitePokebola">{{ value_number }}</div>
     </div>
@@ -41,6 +48,9 @@ export default {
     img: {
       type: String,
       required: true
+    },
+    generation: {
+      type: String
     }
 
   }

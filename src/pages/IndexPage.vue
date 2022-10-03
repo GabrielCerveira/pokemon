@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex flex-center">
-    <div class="column flex flex-center col-6 bg-green">
+    <div class="column flex flex-center bg-green">
       <div class="q-pa-md">
         <div class="q-gutter-md row ">
           <q-select
@@ -25,14 +25,24 @@
           </q-select>
         </div>
       </div>
-      <ShowChosenCharacter
-      v-for="teste in teste"
-      :key="teste.id"
-      :img="teste.image"
-      :title="teste.title"
-      :value_string="teste.type"
-      :value_number="teste.value"
-      />
+      <q-scroll-area
+      :thumb-style="thumbStyle"
+      :bar-style="barStyle"
+      style="height: 400px; width: 335px;"
+      >
+      <div class="column reverse">
+        <ShowChosenCharacter
+        v-for="teste in teste"
+        :key="teste.id"
+        :img="teste.image"
+        :title="teste.title"
+        :value_string="teste.type"
+        :value_number="teste.value"
+        :generation="teste.generation"
+        />
+      </div>
+      </q-scroll-area>
+
     </div>
   </q-page>
 </template>
@@ -54,6 +64,7 @@ export default defineComponent({
     const teste = ref([
       {
         id: '1',
+        generation: '1',
         title: 'Pikachu',
         type: 'electric',
         value: '27.21',
@@ -61,9 +72,35 @@ export default defineComponent({
       },
       {
         id: '1',
-        title: 'Charizard',
+        generation: '1',
+        title: 'Charizad',
         type: 'Fogo',
+        value: '27.21',
         image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png'
+      },
+      {
+        id: '1',
+        generation: '1',
+        title: 'Ditto',
+        type: 'normal',
+        value: '18.21',
+        image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png'
+      },
+      {
+        id: '1',
+        generation: '1',
+        title: 'Bulbasaur',
+        type: 'grass',
+        value: '31.21',
+        image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png'
+      },
+      {
+        id: '1',
+        generation: '1',
+        title: 'Ninetales',
+        type: 'fogo',
+        value: '90.21',
+        image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/38.png'
       }
     ])
     console.log(teste.value[0].title)
