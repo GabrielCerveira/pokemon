@@ -57,23 +57,20 @@ export default {
   name: 'showChosenCharacter',
   props: {
     title: {
-      type: String,
-      required: true
+      type: String
     },
     value_string: {
       type: String
     },
     value_number: {
-      type: Number
+      type: String
     },
     img: {
-      type: String,
-      required: true
+      type: String
     },
     generation: {
       type: String
     }
-
   }
 }
 </script>

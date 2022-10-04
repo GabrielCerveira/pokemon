@@ -3,6 +3,7 @@
     <div class="column flex flex-center">
       <div class="q-pa-md">
         <div class="q-gutter-md">
+
           <q-select
             outlined
             rounded
@@ -15,7 +16,7 @@
             style="width: 480px;"
           >
             <template v-slot:option="scope">
-              <q-item v-bind="scope.itemProps">
+              <q-item v-bind="scope.itemProps"  @blur="setmodel(teste.indexOf(scope.opt.title))">
                 <q-item-section avatar>
                   <div  class="q-ml-md flex flex-center">
                     <div class="text-center flex flex-center text-whitePokebola">
@@ -60,8 +61,6 @@
         -->
       </div>
       <q-scroll-area
-      :thumb-style="thumbStyle"
-      :bar-style="barStyle"
       style="height: 400px; width: 100%;"
       >
       <div class="column reverse">
@@ -71,9 +70,18 @@
         :img="teste.image"
         :title="teste.title"
         :value_string="teste.type"
-        :value_number="teste.value"
+        :value_number="teste.peso"
         :generation="teste.generation"
         />
+      </div>
+      <div v-if="model">
+          <ShowChosenCharacter
+          :img="model.image"
+          :title="model.title"
+          :value_string="model.type"
+          :value_number="model.peso"
+          :generation="model.generation"
+          />
       </div>
       </q-scroll-area>
 
@@ -90,60 +98,62 @@ export default defineComponent({
   components: { ShowChosenCharacter },
 
   setup () {
+    const model = ref()
+    // const position = ref(0)
     const teste = ref([
       {
         id: '1',
         generation: '1',
         title: 'Pikachu',
         type: 'electric',
-        value: '27.21',
+        peso: '25.21',
         image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png'
       },
       {
-        id: '1',
+        id: '2',
         generation: '1',
         title: 'Charizad',
         type: 'Fogo',
-        value: '27.21',
+        peso: '27.21',
         image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png'
       },
       {
-        id: '1',
+        id: '3',
         generation: '1',
         title: 'Ditto',
         type: 'normal',
-        value: '18.21',
+        peso: '18.21',
         image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png'
       },
       {
-        id: '1',
-        generation: '1',
-        title: 'Ditto',
-        type: 'normal',
-        value: '18.21',
-        image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png'
-      },
-      {
-        id: '1',
+        id: '5',
         generation: '1',
         title: 'Bulbasaur',
         type: 'grass',
-        value: '31.21',
+        peso: '31.21',
         image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png'
       },
       {
-        id: '1',
+        id: '6',
         generation: '1',
         title: 'Ninetales',
         type: 'fogo',
-        value: '90.21',
+        peso: '90.21',
         image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/38.png'
       }
     ])
     console.log(teste.value[0].title)
     return {
       teste,
-      model: ref(null)
+      model,
+      setmodel (position) {
+        model.value.unshift(teste.value[position])
+
+        console.log('position: ' + position)
+        console.log(model.value[position].title)
+        console.log('teste: ' + teste.value[0])
+        console.log('model: ' + model.value)
+      }
     }
   }
 })
