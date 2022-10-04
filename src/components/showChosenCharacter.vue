@@ -1,32 +1,53 @@
 <template>
-  <div class="row q-col-gutter-xs q-my-xs rounded-borders bg-pink flex">
-    <div v-if="generation" class="q-pa-sm">
-      <div class="text-center flex flex-center text-whitePokebola">Geração</div>
-      <div  class="circle bg-red text-center flex flex-center text-whitePokebola">{{ generation }}</div>
-    </div>
-    <div v-if="img" class="q-pa-sm">
-      <div class="text-center flex flex-center text-whitePokebola"
-      style="max-width: 50px"
-      >{{ title }}</div>
-      <div class="circle bg-red text-center flex flex-center text-whitePokebola">
+  <div class="row q-my-sm characterInfo flex q-pa-xs">
+
+    <!-- Imagem do Pokemon-->
+    <div v-if="img" class="col-2 flex flex-center">
+      <div class="circle bg-secondary text-center flex flex-center text-whitePokebola">
       <img
       class="absolute"
       :src="img"
-      style="height: 60px; width: 60px"
+      style="height: 90px; width: 90px"
       />
       </div>
     </div>
-    <div v-if="value_string" class="q-pa-sm">
-      <div class="text-center flex flex-center text-whitePokebola">Tipo</div>
-      <div  class="circle bg-red text-center flex flex-center text-whitePokebola">{{ value_string }}</div>
+
+    <div class="col-3 text-left q-pl-xs flex items-center text-caption text-bold characterName"
+      >{{ title }}
     </div>
-    <div class="q-pa-sm">
-      <div class="text-center flex flex-center text-whitePokebola">Tipo</div>
-      <div v-if="value_string" class="circle bg-red text-center flex flex-center text-whitePokebola">{{ value_string }}</div>
-    </div>
-    <div v-if="value_number" class="q-pa-sm">
-      <div class="text-center flex flex-center text-whitePokebola">Peso</div>
-      <div  class="circle bg-red text-center flex flex-center text-whitePokebola">{{ value_number }}</div>
+
+    <!-- Geração -->
+    <div class="flex flex-center col-7 justify-around no-wrap ">
+      <div  class="circle bg-secondary text-center flex flex-center text-whitePokebola column">
+        <div>
+          {{ generation }}
+        </div>
+        <div>
+          GEN
+        </div>
+      </div>
+    <!-- Primeira caracteristica -->
+      <div  class="circle bg-secondary text-center flex flex-center text-whitePokebola">{{ value_string }}</div>
+    <!-- Segunda característica -->
+      <div v-if="value_string" class="circle bg-secondary text-center flex flex-center text-whitePokebola">{{ value_string }}</div>
+      <!-- Peso do Pokemon-->
+      <div  class="circle bg-secondary text-center flex flex-center text-whitePokebola column">
+        <div>
+          {{ value_number }}
+        </div>
+        <div>
+          M
+        </div>
+      </div>
+      <!-- Altura do Pokemon-->
+      <div  class="circle bg-secondary text-center flex flex-center text-whitePokebola column">
+        <div>
+          {{ value_number }}
+        </div>
+        <div>
+          KG
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -60,9 +81,19 @@ export default {
 <style lang="scss" scoped>
 
 .circle{
-  height: 50px;
-  width: 50px;
+  height: 55px;
+  width: 55px;
   border-radius: 50%;
   color: $whitePokebola;
+}
+
+.characterName{
+  color: $blackPokebola;
+  font-size: 14px;
+}
+
+.characterInfo{
+  background-color: $whitePokebola;
+  border-radius: 50px;
 }
 </style>
