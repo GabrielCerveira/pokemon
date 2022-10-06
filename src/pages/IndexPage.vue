@@ -106,20 +106,22 @@ export default defineComponent({
     const graphqlQuery = {
       operationName: 'samplePokeAPIquery',
       query: `
-        query samplePokeAPIquery($name: String, $id: Int!) {
+        query samplePokeAPIquery($name: String) {
           poke: pokemon_v2_pokemonspecies(where: {name: {_regex: $name}}) {
             name
             id
             is_legendary
             generation_id
           }
-          pokemon_v2_pokemonsprites_by_pk(id: $id) {
-            sprites
+          pokemon_v2_pokemonsprites_aggregate(where: {pokemon_v2_pokemon: {name: {_nregex: $name}}}, limit: 1) {
+            nodes {
+              sprites
+              id
+            }
           }
         }`,
       variables: {
-        name,
-        id: 1
+        name
       }
     }
     const poke = async (name) => {
