@@ -92,12 +92,49 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import ShowChosenCharacter from 'src/components/showChosenCharacter.vue'
+import { api } from 'src/boot/axios'
 
 export default defineComponent({
   name: 'IndexPage',
   components: { ShowChosenCharacter },
 
   setup () {
+    const endpoint = 'https://beta.pokeapi.co/graphql/v1beta'
+    const headers = {
+      'content-type': 'application/json'
+    }
+    const graphqlQuery = {
+      operationName: 'samplePokeAPIquery',
+      query: `
+        query samplePokeAPIquery($name: String, $id: Int!) {
+          poke: pokemon_v2_pokemonspecies(where: {name: {_regex: $name}}) {
+            name
+            id
+            is_legendary
+            generation_id
+          }
+          pokemon_v2_pokemonsprites_by_pk(id: $id) {
+            sprites
+          }
+        }`,
+      variables: {
+        name,
+        id: 1
+      }
+    }
+    const poke = async (name) => {
+      graphqlQuery.variables.name = name
+      const response = await api({
+        url: endpoint,
+        method: 'post',
+        headers,
+        data: graphqlQuery
+      })
+      console.log(response.data)
+      console.log(response.errors)
+    }
+    poke('bulb')
+
     const model = ref()
     // const position = ref(0)
     const teste = ref([
