@@ -7,17 +7,21 @@
           <q-select
             outlined
             rounded
-            v-model="model"
-            :options="teste"
+            :model="model"
+            :options="data"
             label="Standard"
             color="teal"
-            clearable
+            use-input
+            hide-selected
+            fill-input
+            @filter="filterFn"
             options-selected-class="text-deep-orange"
             style="width: 480px;"
           >
             <template v-slot:option="scope">
-              <q-item v-bind="scope.itemProps"  @blur="setmodel(teste.indexOf(scope.opt.title))">
+              <q-item v-bind="scope.itemProps" @blur="verifyPokemon(scope.opt)">
                 <q-item-section avatar>
+                  <q-skeleton type="QAvatar" />
                   <div  class="q-ml-md flex flex-center">
                     <div class="text-center flex flex-center text-whitePokebola">
                       <img
@@ -30,25 +34,10 @@
                 </q-item-section>
 
                 <q-item-section>
-                  <q-item-label>{{ scope.opt.title }}</q-item-label>
+                  <q-item-label>{{ scope.opt.name }}</q-item-label>
                 </q-item-section>
               </q-item>
             </template>
-          </q-select>
-        </div>
-        <!--
-        <div class="q-gutter-md row ">
-          <q-select
-            outlined
-            rounded
-            v-model="model"
-            use-input
-            hide-selected
-            fill-input
-            input-debounce="0"
-            :options="options"
-            @filter="filterFn"
-          >
             <template v-slot:no-option>
               <q-item>
                 <q-item-section class="text-grey">
@@ -58,7 +47,6 @@
             </template>
           </q-select>
         </div>
-        -->
       </div>
       <q-scroll-area
       style="height: 400px; width: 100%;"
@@ -74,13 +62,14 @@
         :generation="teste.generation"
         />
       </div>
-      <div v-if="model">
+      <div>
           <ShowChosenCharacter
-          :img="model.image"
-          :title="model.title"
-          :value_string="model.type"
-          :value_number="model.peso"
-          :generation="model.generation"
+          v-for="search in search"
+          :key="search.id"
+
+          :title="search.name"
+
+          :generation="search.generation_id"
           />
       </div>
       </q-scroll-area>
@@ -92,53 +81,28 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import ShowChosenCharacter from 'src/components/showChosenCharacter.vue'
-import { api } from 'src/boot/axios'
+import queriesPokemon from 'src/graphqlConsultas/QueriesPokemon'
 
 export default defineComponent({
   name: 'IndexPage',
   components: { ShowChosenCharacter },
 
   setup () {
-    const endpoint = 'https://beta.pokeapi.co/graphql/v1beta'
-    const headers = {
-      'content-type': 'application/json'
-    }
-    const graphqlQuery = {
-      operationName: 'samplePokeAPIquery',
-      query: `
-        query samplePokeAPIquery($name: String) {
-          poke: pokemon_v2_pokemonspecies(where: {name: {_regex: $name}}) {
-            name
-            id
-            is_legendary
-            generation_id
-          }
-          pokemon_v2_pokemonsprites_aggregate(where: {pokemon_v2_pokemon: {name: {_nregex: $name}}}, limit: 1) {
-            nodes {
-              sprites
-              id
-            }
-          }
-        }`,
-      variables: {
-        name
+    const { getPokemonComplet } = queriesPokemon()
+    const model = ref(null)
+
+    const handleGetPokemonComplet = async (name) => {
+      try {
+        const data = await getPokemonComplet(name)
+        return data
+      } catch (error) {
+        alert(error.message)
       }
     }
-    const poke = async (name) => {
-      graphqlQuery.variables.name = name
-      const response = await api({
-        url: endpoint,
-        method: 'post',
-        headers,
-        data: graphqlQuery
-      })
-      console.log(response.data)
-      console.log(response.errors)
-    }
-    poke('bulb')
 
-    const model = ref()
     // const position = ref(0)
+    const data = ref([{}])
+    const search = ref([{}])
     const teste = ref([
       {
         id: '1',
@@ -181,18 +145,45 @@ export default defineComponent({
         image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/38.png'
       }
     ])
-    console.log(teste.value[0].title)
+
+    const verifyPokemon = async (val) => {
+      console.log(' val ' + val.name)
+      const valor = {
+        id: '7',
+        generation: '1',
+        title: val.name,
+        type: 'fogo',
+        peso: '90.21',
+        image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/38.png'
+      }
+      teste.value.push(valor)
+      console.log(teste.value)
+    }
+
+    const filterFn = (val, update, abort) => {
+      if (val.length < 3) {
+        abort()
+        return
+      }
+
+      update(async () => {
+        const response = await handleGetPokemonComplet(val.toLowerCase())
+        data.value = response.data.poke
+        search.value = response.data.poke
+        console.log(search.value[0].name)
+        console.log(response.data.poke)
+      })
+    }
+
     return {
       teste,
+      search,
       model,
-      setmodel (position) {
-        model.value.unshift(teste.value[position])
+      data,
+      verifyPokemon,
+      filterFn,
+      handleGetPokemonComplet
 
-        console.log('position: ' + position)
-        console.log(model.value[position].title)
-        console.log('teste: ' + teste.value[0])
-        console.log('model: ' + model.value)
-      }
     }
   }
 })
