@@ -69,7 +69,7 @@ export default {
       type: String
     },
     generation: {
-      type: String
+      type: Number
     }
   }
 }

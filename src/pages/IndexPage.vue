@@ -9,7 +9,7 @@
             rounded
             :model="model"
             :options="data"
-            label="Standard"
+            label="Informe o Pokemon"
             color="teal"
             use-input
             hide-selected
@@ -62,18 +62,7 @@
         :generation="teste.generation"
         />
       </div>
-      <div>
-          <ShowChosenCharacter
-          v-for="search in search"
-          :key="search.id"
-
-          :title="search.name"
-
-          :generation="search.generation_id"
-          />
-      </div>
       </q-scroll-area>
-
     </div>
   </q-page>
 </template>
@@ -104,6 +93,7 @@ export default defineComponent({
     const data = ref([{}])
     const search = ref([{}])
     const teste = ref([
+    /*
       {
         id: '1',
         generation: '1',
@@ -144,20 +134,20 @@ export default defineComponent({
         peso: '90.21',
         image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/38.png'
       }
+      */
     ])
 
     const verifyPokemon = async (val) => {
       console.log(' val ' + val.name)
       const valor = {
-        id: '7',
-        generation: '1',
+        id: val.id,
+        generation: val.generation_id,
         title: val.name,
         type: 'fogo',
         peso: '90.21',
         image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/38.png'
       }
       teste.value.push(valor)
-      console.log(teste.value)
     }
 
     const filterFn = (val, update, abort) => {
@@ -170,8 +160,6 @@ export default defineComponent({
         const response = await handleGetPokemonComplet(val.toLowerCase())
         data.value = response.data.poke
         search.value = response.data.poke
-        console.log(search.value[0].name)
-        console.log(response.data.poke)
       })
     }
 
