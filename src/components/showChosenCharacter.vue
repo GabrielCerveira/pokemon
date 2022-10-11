@@ -27,13 +27,13 @@
         </div>
       </div>
     <!-- Primeira caracteristica -->
-      <div  class="circle bg-secondary text-center flex flex-center text-whitePokebola">{{ value_string }}</div>
+      <div  class="circle bg-secondary text-center flex flex-center text-whitePokebola">{{ type1 }}</div>
     <!-- Segunda característica -->
-      <div v-if="value_string" class="circle bg-secondary text-center flex flex-center text-whitePokebola">{{ value_string }}</div>
-      <!-- Peso do Pokemon-->
+      <div  class="circle bg-secondary text-center flex flex-center text-whitePokebola">{{ type2 }}</div>
+    <!-- Peso do Pokemon-->
       <div  class="circle bg-secondary text-center flex flex-center text-whitePokebola column">
         <div>
-          {{ value_number }}
+          {{ weight }}
         </div>
         <div>
           M
@@ -42,7 +42,7 @@
       <!-- Altura do Pokemon-->
       <div  class="circle bg-secondary text-center flex flex-center text-whitePokebola column">
         <div>
-          {{ value_number }}
+          {{ height }}
         </div>
         <div>
           KG
@@ -59,10 +59,16 @@ export default {
     title: {
       type: String
     },
-    value_string: {
+    type1: {
       type: String
     },
-    value_number: {
+    type2: {
+      type: String
+    },
+    height: {
+      type: String
+    },
+    weight: {
       type: String
     },
     img: {
