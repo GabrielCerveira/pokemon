@@ -4,7 +4,7 @@
       <div class="q-pa-md">
         <q-btn
         label="Teste"
-        @blur="handleIDRandom()"
+        @blur="handleGetPokemonCompletID()"
         />
         <div class="q-gutter-md">
 
@@ -91,7 +91,7 @@ export default defineComponent({
     const png = '.png'
     const data = ref([{}])
     const search = ref([{}])
-    const teste = ref()
+    const teste = ref([{}])
 
     const handleGetIDPokemon = async () => {
       try {
@@ -109,6 +109,7 @@ export default defineComponent({
     const handleIDRandom = async () => {
       ID.value = Math.floor(Math.random() * IDs.value.pokemon_v2_pokemonspecies.length)
       console.log('Id random: ' + ID.value)
+      return ID.value
     }
 
     handleIDRandom()
@@ -123,15 +124,18 @@ export default defineComponent({
     }
 
     const handleGetPokemonCompletID = async (id) => {
+      id = await handleIDRandom()
       try {
         const data = await getPokemonCompletID(id)
+        console.log(id)
         console.log('teste id: ' + data.data.pokemon_v2_pokemonspecies)
+        verifyPokemon(data.data.pokemon_v2_pokemonspecies[0])
         return data
       } catch (error) {
         alert(error.message)
       }
     }
-    handleGetPokemonCompletID(10)
+    handleGetPokemonCompletID()
 
     const verifyPokemon = async (val) => {
       console.log(' val ' + val.pokemon_v2_pokemons[0].height)
@@ -176,8 +180,8 @@ export default defineComponent({
       filterFn,
       handleGetPokemonComplet,
       handleGetIDPokemon,
-      handleIDRandom
-
+      handleIDRandom,
+      handleGetPokemonCompletID
     }
   }
 })

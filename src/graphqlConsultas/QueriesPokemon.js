@@ -48,7 +48,7 @@ const graphqlQueryID = {
         }
         `,
   variables: {
-    id
+    id: 10
   }
 }
 
@@ -82,12 +82,12 @@ export default function queriesPokemon () {
   }
 
   const getPokemonCompletID = async (id) => {
-    graphqlQueryID.variables.name = id
+    graphqlQueryID.variables.id = id
     const { data, error } = await api({
       url: endpoint,
       method: 'post',
       headers,
-      data: graphqlQueryCaracter
+      data: graphqlQueryID
     })
     if (error) throw error
     return data

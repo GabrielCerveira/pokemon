@@ -1,5 +1,5 @@
 <template>
-  <div class="row q-my-sm characterInfo flex q-pa-xs">
+  <div class="row q-my-sm characterInfo flex q-pa-xs" v-if="title">
 
     <!-- Imagem do Pokemon-->
     <div v-if="img" class="col-2 flex flex-center">
