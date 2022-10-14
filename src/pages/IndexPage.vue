@@ -1,13 +1,12 @@
 <template>
   <q-page class="flex flex-center">
     <div class="column flex flex-center">
-      <div class="q-pa-md">
+      <div class="q-pa-md ">
         <q-btn
         label="Teste"
         @blur="handleGetPokemonCompletID()"
         />
         <div class="q-gutter-md">
-
           <q-select
             outlined
             rounded
@@ -50,10 +49,20 @@
             </template>
           </q-select>
         </div>
+
+      <div v-if="loading" class="flex flex-center"
+      style="height: 400px; width: 100%;"
+      >
+        <q-spinner
+          color="primary"
+          size="6em"
+        />
       </div>
       <q-scroll-area
       style="height: 400px; width: 100%;"
+      v-if="!loading"
       >
+
       <div class="column reverse">
         <ShowChosenCharacter
         v-for="teste in teste"
@@ -68,6 +77,7 @@
         />
       </div>
       </q-scroll-area>
+    </div>
     </div>
   </q-page>
 </template>
@@ -92,6 +102,7 @@ export default defineComponent({
     const data = ref([{}])
     const search = ref([{}])
     const teste = ref([{}])
+    const loading = ref(false)
 
     const handleGetIDPokemon = async () => {
       try {
@@ -124,18 +135,20 @@ export default defineComponent({
     }
 
     const handleGetPokemonCompletID = async (id) => {
+      loading.value = true
       id = await handleIDRandom()
       try {
         const data = await getPokemonCompletID(id)
         console.log(id)
         console.log('teste id: ' + data.data.pokemon_v2_pokemonspecies)
         verifyPokemon(data.data.pokemon_v2_pokemonspecies[0])
+        loading.value = false
         return data
       } catch (error) {
         alert(error.message)
+        loading.value = false
       }
     }
-    handleGetPokemonCompletID()
 
     const verifyPokemon = async (val) => {
       console.log(' val ' + val.pokemon_v2_pokemons[0].height)
@@ -176,6 +189,7 @@ export default defineComponent({
       url,
       png,
       IDs,
+      loading,
       verifyPokemon,
       filterFn,
       handleGetPokemonComplet,
@@ -187,45 +201,14 @@ export default defineComponent({
 })
 
 /*
-      {
-        id: '1',
-        generation: '1',
-        title: 'Pikachu',
-        type: 'electric',
-        peso: '25.21',
-        image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png'
-      },
-      {
-        id: '2',
-        generation: '1',
-        title: 'Charizad',
-        type: 'Fogo',
-        peso: '27.21',
-        image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png'
-      },
-      {
-        id: '3',
-        generation: '1',
-        title: 'Ditto',
-        type: 'normal',
-        peso: '18.21',
-        image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png'
-      },
-      {
-        id: '5',
-        generation: '1',
-        title: 'Bulbasaur',
-        type: 'grass',
-        peso: '31.21',
-        image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png'
-      },
-      {
-        id: '6',
-        generation: '1',
-        title: 'Ninetales',
-        type: 'fogo',
-        peso: '90.21',
-        image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/38.png'
-      }
-      */
+  Exemplo teste
+  {
+    id: '1',
+    generation: '1',
+    title: 'Pikachu',
+    type: 'electric',
+    peso: '25.21',
+    image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png'
+  }
+*/
 </script>
