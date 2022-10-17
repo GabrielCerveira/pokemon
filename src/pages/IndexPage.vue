@@ -19,7 +19,7 @@
             fill-input
             @filter="filterFn"
             options-selected-class="text-deep-orange"
-            style="width: 480px;"
+            style="width: 500px;"
           >
             <template v-slot:option="scope">
               <q-item v-bind="scope.itemProps" @blur="verifyPokemon(scope.opt)">
@@ -65,15 +65,15 @@
 
       <div class="column reverse">
         <ShowChosenCharacter
-        v-for="teste in teste"
-        :key="teste.id"
-        :img="teste.image"
-        :title="teste.title"
-        :type1="teste.type"
-        :type2="teste.type2"
-        :height="teste.height"
-        :weight="teste.peso"
-        :generation="teste.generation"
+        v-for="pokemonArray in pokemonArray"
+        :key="pokemonArray.id"
+        :img="pokemonArray.image"
+        :title="pokemonArray.title"
+        :type1="pokemonArray.type"
+        :type2="pokemonArray.type2"
+        :height="pokemonArray.height"
+        :weight="pokemonArray.peso"
+        :generation="pokemonArray.generation"
         />
       </div>
       </q-scroll-area>
@@ -101,13 +101,13 @@ export default defineComponent({
     const png = '.png'
     const data = ref([{}])
     const search = ref([{}])
-    const teste = ref([{}])
+    const pokemonArray = ref([{}])
     const loading = ref(false)
 
+    // Busca todos os IDs dos pokemons
     const handleGetIDPokemon = async () => {
       try {
         const data = await getIDPokemon()
-        console.log(Math.floor(Math.random() * data.data.pokemon_v2_pokemonspecies.length))
         IDs.value = data.data
         return data.data
       } catch (error) {
@@ -117,14 +117,14 @@ export default defineComponent({
 
     handleGetIDPokemon()
 
+    // Sorteia um ID aleatório
     const handleIDRandom = async () => {
       ID.value = Math.floor(Math.random() * IDs.value.pokemon_v2_pokemonspecies.length)
       console.log('Id random: ' + ID.value)
       return ID.value
     }
 
-    handleIDRandom()
-
+    // Busca as informações do pokemon, através do nome dele
     const handleGetPokemonComplet = async (name) => {
       try {
         const data = await getPokemonComplet(name)
@@ -134,13 +134,14 @@ export default defineComponent({
       }
     }
 
+    // Busca as informações do pokemon, através do ID dele
     const handleGetPokemonCompletID = async (id) => {
       loading.value = true
       id = await handleIDRandom()
       try {
         const data = await getPokemonCompletID(id)
         console.log(id)
-        console.log('teste id: ' + data.data.pokemon_v2_pokemonspecies)
+        console.log('teste id: ', data.data.pokemon_v2_pokemonspecies)
         verifyPokemon(data.data.pokemon_v2_pokemonspecies[0])
         loading.value = false
         return data
@@ -150,6 +151,7 @@ export default defineComponent({
       }
     }
 
+    // Adiciona o pokemon ao array e verifica se ele está correto
     const verifyPokemon = async (val) => {
       console.log(' val ' + val.pokemon_v2_pokemons[0].height)
       console.log(' val ' + val.pokemon_v2_pokemons[0].weight)
@@ -165,7 +167,7 @@ export default defineComponent({
         peso: val.pokemon_v2_pokemons[0].weight,
         image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + val.id + '.png'
       }
-      teste.value.push(valor)
+      pokemonArray.value.push(valor)
     }
 
     const filterFn = (val, update, abort) => {
@@ -182,7 +184,7 @@ export default defineComponent({
     }
 
     return {
-      teste,
+      pokemonArray,
       search,
       model,
       data,
