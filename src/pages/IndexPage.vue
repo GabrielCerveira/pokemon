@@ -22,7 +22,7 @@
             style="width: 500px;"
           >
             <template v-slot:option="scope">
-              <q-item v-bind="scope.itemProps" @blur="verifyPokemon(scope.opt)">
+              <q-item v-bind="scope.itemProps" @blur="insertPokemonArray(scope.opt)">
                 <q-item-section avatar>
                   <div  class="q-ml-md flex flex-center">
                     <div class="text-center flex flex-center text-whitePokebola">
@@ -74,7 +74,6 @@
         :height="pokemonArray.height"
         :weight="pokemonArray.peso"
         :generation="pokemonArray.generation"
-        :isCorrect="true"
         />
       </div>
       </q-scroll-area>
@@ -103,6 +102,7 @@ export default defineComponent({
     const data = ref([{}])
     const search = ref([{}])
     const pokemonArray = ref([{}])
+    const pokemonSelect = ref([{}])
     const loading = ref(false)
 
     // Busca todos os IDs dos pokemons
@@ -110,7 +110,8 @@ export default defineComponent({
       try {
         const data = await getIDPokemon()
         IDs.value = data.data
-        return data.data
+        handleIDRandom2()
+        return
       } catch (error) {
         alert(error.message)
       }
@@ -125,6 +126,14 @@ export default defineComponent({
       return ID.value
     }
 
+    // Escolha um pokemon aleatóriamente
+    const handleIDRandom2 = async () => {
+      ID.value = Math.floor(Math.random() * IDs.value.pokemon_v2_pokemonspecies.length)
+      pokemonSelect.value = handleGetPokemonCompletID(ID.value)
+      console.log('Pokemon escolhido: ', pokemonSelect.value)
+    }
+    handleIDRandom2()
+
     // Busca as informações do pokemon, através do nome dele
     const handleGetPokemonComplet = async (name) => {
       try {
@@ -137,27 +146,19 @@ export default defineComponent({
 
     // Busca as informações do pokemon, através do ID dele
     const handleGetPokemonCompletID = async (id) => {
-      loading.value = true
       id = await handleIDRandom()
       try {
         const data = await getPokemonCompletID(id)
-        console.log(id)
-        console.log('teste id: ', data.data.pokemon_v2_pokemonspecies)
-        verifyPokemon(data.data.pokemon_v2_pokemonspecies[0])
-        loading.value = false
+        insertPokemonArray(data.data.pokemon_v2_pokemonspecies[0])
         return data
       } catch (error) {
         alert(error.message)
-        loading.value = false
       }
     }
 
-    // Adiciona o pokemon ao array e verifica se ele está correto
-    const verifyPokemon = async (val) => {
-      console.log(' val ' + val.pokemon_v2_pokemons[0].height)
-      console.log(' val ' + val.pokemon_v2_pokemons[0].weight)
-      console.log(' val ' + val.pokemon_v2_pokemons[0].pokemon_v2_pokemontypes[0].pokemon_v2_type.name)
-
+    // Adiciona o pokemon ao array
+    const insertPokemonArray = async (val) => {
+      loading.value = true
       const valor = {
         id: val.id,
         generation: val.generation_id,
@@ -169,6 +170,7 @@ export default defineComponent({
         image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + val.id + '.png'
       }
       pokemonArray.value.push(valor)
+      loading.value = false
     }
 
     const filterFn = (val, update, abort) => {
@@ -193,11 +195,12 @@ export default defineComponent({
       png,
       IDs,
       loading,
-      verifyPokemon,
+      insertPokemonArray,
       filterFn,
       handleGetPokemonComplet,
       handleGetIDPokemon,
       handleIDRandom,
+      handleIDRandom2,
       handleGetPokemonCompletID
     }
   }
