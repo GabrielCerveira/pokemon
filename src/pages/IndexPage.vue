@@ -74,6 +74,7 @@
         :height="pokemonArray.height"
         :weight="pokemonArray.peso"
         :generation="pokemonArray.generation"
+        :isCorrect="true"
         />
       </div>
       </q-scroll-area>

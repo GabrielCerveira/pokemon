@@ -18,7 +18,10 @@
 
     <!-- Geração -->
     <div class="flex flex-center col-7 justify-around no-wrap ">
-      <div  class="circle bg-secondary text-center flex flex-center text-whitePokebola column">
+      <div
+            v-bind:class="[isCorrect ? 'correctClass' : 'wrongClass'] + ' circle text-center flex flex-center text-whitePokebola column'"
+      >
+        <q-icon class="right absolute" name="mdi-arrow-up-circle"/>
         <div>
           {{ generation }}
         </div>
@@ -76,6 +79,9 @@ export default {
     },
     generation: {
       type: Number
+    },
+    isCorrect: {
+      type: Boolean
     }
   }
 }
@@ -88,6 +94,21 @@ export default {
   width: 55px;
   border-radius: 50%;
   color: $whitePokebola;
+}
+
+.correctClass{
+  background-color: $positive !important
+}
+.correctClass::after {
+  background-color: red!important;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  position: absolute;
+}
+
+.wrongClass{
+  background-color: $negative !important
 }
 
 .characterName{
