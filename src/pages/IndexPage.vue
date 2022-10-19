@@ -126,11 +126,27 @@ export default defineComponent({
       return ID.value
     }
 
-    // Escolha um pokemon aleatóriamente
+    // Escolha um pokemon aleatóriamente e seta a varíavel no LocalStorage
     const handleIDRandom2 = async () => {
       ID.value = Math.floor(Math.random() * IDs.value.pokemon_v2_pokemonspecies.length)
-      pokemonSelect.value = handleGetPokemonCompletID(ID.value)
-      console.log('Pokemon escolhido: ', pokemonSelect.value)
+      pokemonSelect.value = await handleGetPokemonCompletID(ID.value)
+      console.log('teste')
+      const valor = {
+        id: pokemonSelect.value.data.pokemon_v2_pokemonspecies[0].id,
+        generation: pokemonSelect.value.data.pokemon_v2_pokemonspecies[0].generation_id,
+        title: pokemonSelect.value.data.pokemon_v2_pokemonspecies[0].name,
+        type: pokemonSelect.value.data.pokemon_v2_pokemonspecies[0].pokemon_v2_pokemons[0].pokemon_v2_pokemontypes[0].pokemon_v2_type.name,
+        type2: pokemonSelect.value.data.pokemon_v2_pokemonspecies[0].pokemon_v2_pokemons[0].pokemon_v2_pokemontypes.at(-1).pokemon_v2_type.name,
+        height: pokemonSelect.value.data.pokemon_v2_pokemonspecies[0].pokemon_v2_pokemons[0].height,
+        peso: pokemonSelect.value.data.pokemon_v2_pokemonspecies[0].pokemon_v2_pokemons[0].weight,
+        image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + pokemonSelect.value.data.pokemon_v2_pokemonspecies[0].id + '.png'
+      }
+
+      localStorage.setItem('pokemon', JSON.stringify(valor))
+
+      // transformar em objeto novamente
+      const pessoaObj = JSON.parse(localStorage.getItem('pokemon'))
+      console.log('retorno do storage', pessoaObj)
     }
     handleIDRandom2()
 
