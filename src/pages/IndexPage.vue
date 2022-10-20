@@ -4,7 +4,7 @@
       <div class="q-pa-md ">
         <q-btn
         label="Teste"
-        @blur="handleGetPokemonCompletID()"
+        @blur="handleGetPokemonCompletID2()"
         />
         <div class="q-gutter-md">
           <q-select
@@ -72,7 +72,7 @@
         :type1="pokemonArray.type"
         :type2="pokemonArray.type2"
         :height="pokemonArray.height"
-        :weight="pokemonArray.peso"
+        :weight="pokemonArray.weight"
         :generation="pokemonArray.generation"
         />
       </div>
@@ -119,7 +119,7 @@ export default defineComponent({
 
     handleGetIDPokemon()
 
-    // Sorteia um ID aleatório
+    // Sorteia um ID aleatório - apagar
     const handleIDRandom = async () => {
       ID.value = Math.floor(Math.random() * IDs.value.pokemon_v2_pokemonspecies.length)
       console.log('Id random: ' + ID.value)
@@ -130,23 +130,18 @@ export default defineComponent({
     const handleIDRandom2 = async () => {
       ID.value = Math.floor(Math.random() * IDs.value.pokemon_v2_pokemonspecies.length)
       pokemonSelect.value = await handleGetPokemonCompletID(ID.value)
-      console.log('teste')
       const valor = {
         id: pokemonSelect.value.data.pokemon_v2_pokemonspecies[0].id,
         generation: pokemonSelect.value.data.pokemon_v2_pokemonspecies[0].generation_id,
         title: pokemonSelect.value.data.pokemon_v2_pokemonspecies[0].name,
-        type: pokemonSelect.value.data.pokemon_v2_pokemonspecies[0].pokemon_v2_pokemons[0].pokemon_v2_pokemontypes[0].pokemon_v2_type.name,
+        type1: pokemonSelect.value.data.pokemon_v2_pokemonspecies[0].pokemon_v2_pokemons[0].pokemon_v2_pokemontypes[0].pokemon_v2_type.name,
         type2: pokemonSelect.value.data.pokemon_v2_pokemonspecies[0].pokemon_v2_pokemons[0].pokemon_v2_pokemontypes.at(-1).pokemon_v2_type.name,
-        height: pokemonSelect.value.data.pokemon_v2_pokemonspecies[0].pokemon_v2_pokemons[0].height,
-        peso: pokemonSelect.value.data.pokemon_v2_pokemonspecies[0].pokemon_v2_pokemons[0].weight,
+        height: (pokemonSelect.value.data.pokemon_v2_pokemonspecies[0].pokemon_v2_pokemons[0].height * 0.1).toFixed(2),
+        weight: (pokemonSelect.value.data.pokemon_v2_pokemonspecies[0].pokemon_v2_pokemons[0].weight * 0.1).toFixed(2),
         image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + pokemonSelect.value.data.pokemon_v2_pokemonspecies[0].id + '.png'
       }
 
       localStorage.setItem('pokemon', JSON.stringify(valor))
-
-      // transformar em objeto novamente
-      const pessoaObj = JSON.parse(localStorage.getItem('pokemon'))
-      console.log('retorno do storage', pessoaObj)
     }
     handleIDRandom2()
 
@@ -162,6 +157,16 @@ export default defineComponent({
 
     // Busca as informações do pokemon, através do ID dele
     const handleGetPokemonCompletID = async (id) => {
+      try {
+        const data = await getPokemonCompletID(id)
+        return data
+      } catch (error) {
+        alert(error.message)
+      }
+    }
+
+    // Busca as informações do pokemon, através do ID dele - apagar
+    const handleGetPokemonCompletID2 = async (id) => {
       id = await handleIDRandom()
       try {
         const data = await getPokemonCompletID(id)
@@ -181,8 +186,8 @@ export default defineComponent({
         title: val.name,
         type: val.pokemon_v2_pokemons[0].pokemon_v2_pokemontypes[0].pokemon_v2_type.name,
         type2: val.pokemon_v2_pokemons[0].pokemon_v2_pokemontypes.at(-1).pokemon_v2_type.name,
-        height: val.pokemon_v2_pokemons[0].height,
-        peso: val.pokemon_v2_pokemons[0].weight,
+        height: (val.pokemon_v2_pokemons[0].height * 0.1).toFixed(1).replace('.', ','),
+        weight: (val.pokemon_v2_pokemons[0].weight * 0.1).toFixed(1).replace('.', ','),
         image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + val.id + '.png'
       }
       pokemonArray.value.push(valor)
@@ -217,7 +222,8 @@ export default defineComponent({
       handleGetIDPokemon,
       handleIDRandom,
       handleIDRandom2,
-      handleGetPokemonCompletID
+      handleGetPokemonCompletID,
+      handleGetPokemonCompletID2
     }
   }
 })
