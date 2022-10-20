@@ -18,42 +18,42 @@
 
     <!-- Geração -->
     <div class="flex flex-center relative-position col-7 justify-around no-wrap ">
-      <div v-bind:class="[isCorrect(generation, testeGen.generation) ? 'correctClass' : 'wrongClass'] + ' circle text-center flex flex-center text-whitePokebola column'">
+      <div v-bind:class="[isCorrect(generation, objLocalStoragePokemon.generation) ? 'correctClass' : 'wrongClass'] + ' circle text-center flex flex-center text-whitePokebola column'">
         <div>
           {{ generation }}
         </div>
         <div>
           GEN
         </div>
-        <q-icon v-if="!isCorrect(generation, testeGen.generation)" :class="[statusCondition(generation, testeGen.generation) ? '':'rotate-180']+' absolute positionIcon'" name="mdi-arrow-up-circle" size="21px"/>
+        <q-icon v-if="!isCorrect(generation, objLocalStoragePokemon.generation)" :class="[statusCondition(generation, objLocalStoragePokemon.generation) ? '':'rotate-180']+' absolute positionIcon'" name="mdi-arrow-up-circle" size="21px"/>
       </div>
     <!-- Primeira caracteristica -->
-      <div  v-bind:class="[isCorrect(type1, testeGen.type1) ? 'correctClass' : 'wrongClass'] + ' circle text-center flex flex-center text-whitePokebola column'">
+      <div  v-bind:class="[isCorrect(type1, objLocalStoragePokemon.type1) ? 'correctClass' : 'wrongClass'] + ' circle text-center flex flex-center text-whitePokebola column'">
         {{ type1 }}
       </div>
     <!-- Segunda característica -->
-      <div  v-bind:class="[isCorrect(type2, testeGen.type2) ? 'correctClass' : 'wrongClass'] + ' circle text-center flex flex-center text-whitePokebola column'">
+      <div  v-bind:class="[isCorrect(type2, objLocalStoragePokemon.type2) ? 'correctClass' : 'wrongClass'] + ' circle text-center flex flex-center text-whitePokebola column'">
           {{ type2 }}
       </div>
     <!-- Peso do Pokemon-->
-      <div  v-bind:class="[isCorrect(weight, testeGen.weight) ? 'correctClass' : 'wrongClass'] + ' circle text-center flex flex-center text-whitePokebola column'">
+      <div  v-bind:class="[isCorrect(weight, objLocalStoragePokemon.weight) ? 'correctClass' : 'wrongClass'] + ' circle text-center flex flex-center text-whitePokebola column'">
         <div>
           {{ weight }}
         </div>
         <div>
           KG
         </div>
-        <q-icon v-if="!isCorrect(weight, testeGen.weight)" :class="[statusCondition(weight, testeGen.weight) ? '':'rotate-180']+' absolute positionIcon'" name="mdi-arrow-up-circle" size="21px"/>
+        <q-icon v-if="!isCorrect(weight, objLocalStoragePokemon.weight)" :class="[statusCondition(weight, objLocalStoragePokemon.weight) ? '':'rotate-180']+' absolute positionIcon'" name="mdi-arrow-up-circle" size="21px"/>
       </div>
       <!-- Altura do Pokemon-->
-      <div  v-bind:class="[isCorrect(height, testeGen.height) ? 'correctClass' : 'wrongClass'] + ' circle text-center flex flex-center text-whitePokebola column'">
+      <div  v-bind:class="[isCorrect(height, objLocalStoragePokemon.height) ? 'correctClass' : 'wrongClass'] + ' circle text-center flex flex-center text-whitePokebola column'">
         <div>
           {{ height }}
         </div>
         <div>
           m
         </div>
-        <q-icon v-if="!isCorrect(height, testeGen.height)" :class="[statusCondition(height, testeGen.height) ? '':'rotate-180']+' absolute positionIcon'" name="mdi-arrow-up-circle" size="21px"/>
+        <q-icon v-if="!isCorrect(height, objLocalStoragePokemon.height)" :class="[statusCondition(height, objLocalStoragePokemon.height) ? '':'rotate-180']+' absolute positionIcon'" name="mdi-arrow-up-circle" size="21px"/>
       </div>
     </div>
   </div>
@@ -87,16 +87,11 @@ export default {
     }
 
   },
-  setup (props) {
-    const testeGen = {
-      id: 1,
-      generation: 1,
-      title: 'Pikachu',
-      type1: 'electric',
-      type2: 'electric',
-      height: 4,
-      weight: 60
-    }
+  setup () {
+    // Obtem os dados do local storagem e converte em objeto
+    const objLocalStoragePokemon = JSON.parse(localStorage.getItem('pokemon'))
+
+    // Verifica o se os atributos dos pokemons
     const statusCondition = (inputVerify, resultVerify) => {
       if (inputVerify > resultVerify) {
         return false
@@ -105,8 +100,8 @@ export default {
       }
     }
 
+    // Verifica se o atributo esta correto
     const isCorrect = (inputVerify, resultVerify) => {
-      console.log(inputVerify, resultVerify)
       if (inputVerify === resultVerify) {
         return true
       } else {
@@ -117,7 +112,7 @@ export default {
     return {
       statusCondition,
       isCorrect,
-      testeGen
+      objLocalStoragePokemon
     }
   }
 }
@@ -141,8 +136,8 @@ export default {
 }
 
 .positionIcon {
-margin-right: -40px;
-margin-top: -40px;
+margin-right: -45px;
+margin-top: -45px;
 background-color: red;
 border-radius: 50%;
 }
