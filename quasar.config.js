@@ -95,6 +95,7 @@ module.exports = configure(function (/* ctx */) {
           primary: '#f00000',
           secondary: '#ee1515',
           blackPokebola: '#222224',
+          grayPokedex: '#aaa',
           whitePokebola: '#f0f0f0',
           accent: '#1c1f26',
           dark: '#1d1d1d',
