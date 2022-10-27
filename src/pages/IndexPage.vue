@@ -1,11 +1,12 @@
 <template>
   <q-page class="flex flex-center">
-    <div class="column flex flex-center">
+    <q-btn
+    label="Teste"
+    @blur="handleGetPokemonCompletID2()"
+    class="absolute-top"
+    />
+    <!--<div class="column flex flex-center">
       <div class="q-pa-md ">
-        <q-btn
-        label="Teste"
-        @blur="handleGetPokemonCompletID2()"
-        />
         <div class="q-gutter-md">
           <q-select
             outlined
@@ -78,18 +79,22 @@
       </div>
       </q-scroll-area>
     </div>
-    </div>
+    </div>-->
+  <pokedexPokemon
+
+    />
   </q-page>
 </template>
 
 <script>
 import { defineComponent, ref } from 'vue'
-import ShowChosenCharacter from 'src/components/showChosenCharacter.vue'
+// import ShowChosenCharacter from 'src/components/showChosenCharacter.vue'
+import pokedexPokemon from 'src/components/pokedexPokemon.vue'
 import queriesPokemon from 'src/graphqlConsultas/QueriesPokemon'
 
 export default defineComponent({
   name: 'IndexPage',
-  components: { ShowChosenCharacter },
+  components: { /* ShowChosenCharacter, */ pokedexPokemon },
 
   setup () {
     const { getPokemonComplet, getIDPokemon, getPokemonCompletID } = queriesPokemon()
