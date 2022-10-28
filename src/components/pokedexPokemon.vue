@@ -24,14 +24,13 @@
         <q-btn
         class="pokedex__button pokedex__button--prev col"
         label="Anterior"
-        icon="mdi-chevron-left"
+
         :ripple=false
         dense
         />
         <q-btn
         class="pokedex__button pokedex__button--next col"
         label="Próximo"
-        icon="mdi-chevron-right"
         :ripple=false
         dense
         />
@@ -119,10 +118,11 @@ export default {
 
 .pokedex__button{
   width: 50%;
-  padding: 4%;
+  height: 35px;
+  padding: 2%;
   border: 2px solid #111;
   border-radius: 5px;
-  font-size: clamp(8px, 1vw, 0.5rem);
+  font-size: clamp(8px, 1vw, 0.8rem);
   font-weight: 600;
   color: white;
   background-color: #444;
