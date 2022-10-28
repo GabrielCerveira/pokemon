@@ -1,17 +1,22 @@
 <template>
-  <div class="">
+  <div class="component">
     <q-select
-      outlined
+      borderless
+      bg-color="white"
       :model="model"
       :options="data"
-      label="Informe o Pokemon"
+      placeholder="Pokemon"
       color="teal"
       use-input
+      hide-bottom-space="false"
       hide-selected
       fill-input
+      dense
+      hide-dropdown-icon
       @filter="filterFn"
       options-selected-class="text-deep-orange"
-      class="full-width q-pa-xs"
+      input-class="component__input q-pa-xs"
+      class="component__selector full-width"
     >
       <template v-slot:option="scope">
         <q-item v-bind="scope.itemProps" @blur="insertPokemonArray(scope.opt)">
@@ -48,6 +53,18 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+.component__selector{
+  outline: none;
+  border: 2px solid #333;
+  border-radius: 5px;
+  box-shadow: -2px 3px 0 #888, -3px 5px 0 #333;
+}
 
+.component__input{
+  font-weight: 600;
+  color: $graySelector;
+  font-size: clamp(8px, 5vw, 1rem);
+
+}
 </style>
