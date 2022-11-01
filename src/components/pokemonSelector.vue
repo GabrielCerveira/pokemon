@@ -19,7 +19,7 @@
       class="component__selector full-width"
     >
       <template v-slot:option="scope">
-        <q-item v-bind="scope.itemProps" @blur="insertPokemonArray(scope.opt)">
+        <q-item v-bind="scope.itemProps" @click="$emit('testeEmit',scope.opt)">
           <q-item-section avatar>
             <div  class="q-ml-md flex flex-center">
               <div class="text-center flex flex-center text-whitePokebola">
@@ -53,13 +53,13 @@ import queriesPokemon from 'src/graphqlConsultas/QueriesPokemon'
 
 export default {
   name: 'pokemonSelector',
+  emits: ['testeEmit'],
 
   setup () {
     const { getPokemonComplet } = queriesPokemon()
 
     const data = ref([{}])
     const model = ref([{}])
-    const pokemonArray = ref([{}])
     // const search = ref()
     const url = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'
     const png = '.png'
@@ -72,21 +72,6 @@ export default {
       } catch (error) {
         alert(error.message)
       }
-    }
-
-    // Adiciona o pokemon ao array
-    const insertPokemonArray = async (val) => {
-      const valor = {
-        id: val.id,
-        generation: val.generation_id,
-        title: val.name,
-        type: val.pokemon_v2_pokemons[0].pokemon_v2_pokemontypes[0].pokemon_v2_type.name,
-        type2: val.pokemon_v2_pokemons[0].pokemon_v2_pokemontypes.at(-1).pokemon_v2_type.name,
-        height: (val.pokemon_v2_pokemons[0].height * 0.1).toFixed(1).replace('.', ','),
-        weight: (val.pokemon_v2_pokemons[0].weight * 0.1).toFixed(1).replace('.', ','),
-        image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + val.id + '.png'
-      }
-      pokemonArray.value.push(valor)
     }
 
     const filterFn = (val, update, abort) => {
@@ -103,8 +88,6 @@ export default {
     }
     return {
       filterFn,
-      insertPokemonArray,
-      pokemonArray,
       model,
       // search,
       data,

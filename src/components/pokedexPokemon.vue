@@ -2,28 +2,30 @@
     <div class="pokedex relative-position">
       <!-- Imagem do Pokemon-->
       <img
+      v-if="pokemonarray"
       class="pokedex__pokemon absolute"
-      src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
+      :src="pokemonArray.at(indexArray).image"
       />
 
       <!--Nome do pokemone e id-->
-      <div class="pokedex__data text-weight-medium absolute">
+      <div class="pokedex__data text-weight-medium absolute" v-if="pokemonarray">
         <span class="pokedex__number">
-          25
+          {{pokemonArray.at(indexArray).id}}
         </span> -
         <span class="pokedex__name text-capitalize">
-          pikachu
+          {{pokemonArray.at(indexArray).name}}
         </span>
       </div>
 
       <!--Seletor de pokemon-->
-      <pokemonSelector class="pokedex__selector absolute"/>
+      <pokemonSelector class="pokedex__selector absolute" @teste-emit = 'set'/>
 
       <!--Botões da pokedex-->
       <div class="pokedex__buttons absolute row ">
         <q-btn
         class="pokedex__button pokedex__button--prev col"
         label="Anterior"
+        @click="incrementIndexArray"
 
         :ripple=false
         dense
@@ -31,6 +33,8 @@
         <q-btn
         class="pokedex__button pokedex__button--next col"
         label="Próximo"
+        @click="decreaseIndexArray"
+        :disabled="indexArray === -1"
         :ripple=false
         dense
         />
@@ -47,6 +51,7 @@
 </template>
 
 <script>
+import { ref } from 'vue'
 import pokemonSelector from './pokemonSelector.vue'
 export default {
   components: { pokemonSelector },
@@ -74,6 +79,43 @@ export default {
       type: Number
     }
 
+  },
+
+  setup () {
+    const pokemonArray = ref()
+    const indexArray = ref()
+
+    const incrementIndexArray = () => {
+      indexArray.value = indexArray.value + 1
+    }
+
+    const decreaseIndexArray = () => {
+      indexArray.value = indexArray.value - 1
+    }
+
+    const set = (val) => {
+      const valor = {
+        id: val.id,
+        generation: val.generation_id,
+        name: val.name,
+        type: val.pokemon_v2_pokemons[0].pokemon_v2_pokemontypes[0].pokemon_v2_type.name,
+        type2: val.pokemon_v2_pokemons[0].pokemon_v2_pokemontypes.at(-1).pokemon_v2_type.name,
+        height: (val.pokemon_v2_pokemons[0].height * 0.1).toFixed(1).replace('.', ','),
+        weight: (val.pokemon_v2_pokemons[0].weight * 0.1).toFixed(1).replace('.', ','),
+        image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + val.id + '.png'
+      }
+      indexArray.value = -1
+      pokemonArray.value.push(valor)
+
+      console.log(pokemonArray.value)
+    }
+    return {
+      pokemonArray,
+      indexArray,
+      incrementIndexArray,
+      decreaseIndexArray,
+      set
+    }
   }
 }
 </script>
