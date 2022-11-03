@@ -1,10 +1,5 @@
 <template>
   <q-page class="flex flex-center">
-    <q-btn
-    label="Teste"
-    @blur="handleGetPokemonCompletID2()"
-    class="absolute-top"
-    />
     <!--<div class="column flex flex-center">
       <div class="q-pa-md ">
         <div class="q-gutter-md">

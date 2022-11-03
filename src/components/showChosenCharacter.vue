@@ -1,7 +1,7 @@
 <template>
-  <div class="row q-my-sm characterInfo flex q-pa-xs" v-if="title">
+  <div class="row flex pokemonInfo q-gutter-xs">
 
-    <!-- Imagem do Pokemon-->
+    <!-- Imagem do Pokemon
     <div v-if="img" class="col-2 flex flex-center">
       <div class="circle bg-white text-center flex flex-center text-whitePokebola">
       <img
@@ -15,47 +15,51 @@
     <div class="col-3 text-left q-pl-xs flex items-center text-caption text-bold characterName"
       >{{ title }}
     </div>
-
-    <!-- Geração -->
-    <div class="flex flex-center relative-position col-7 justify-around no-wrap ">
-      <div v-bind:class="[isCorrect(generation, objLocalStoragePokemon.generation) ? 'correctClass' : 'wrongClass'] + ' circle text-center flex flex-center text-whitePokebola column'">
+    -->
+    <!-- Geração   v-bind:class="[isCorrect(generation, objLocalStoragePokemon.generation) ? 'correctClass' : 'wrongClass']-->
+      <div  class="pokemonStatus__info text-center flex flex-center column">
         <div>
-          {{ generation }}
+          1
         </div>
         <div>
           GEN
         </div>
-        <q-icon v-if="!isCorrect(generation, objLocalStoragePokemon.generation)" :class="[statusCondition(generation, objLocalStoragePokemon.generation) ? '':'rotate-180']+' absolute positionIcon'" name="mdi-arrow-up-circle" size="21px"/>
+        <!--
+          <q-icon v-if="!isCorrect(generation, objLocalStoragePokemon.generation)" :class="[statusCondition(generation, objLocalStoragePokemon.generation) ? '':'rotate-180']+' absolute positionIcon'" name="mdi-arrow-up-circle" size="21px"/>
+        -->
       </div>
     <!-- Primeira caracteristica -->
-      <div  v-bind:class="[isCorrect(type1, objLocalStoragePokemon.type1) ? 'correctClass' : 'wrongClass'] + ' circle text-center flex flex-center text-whitePokebola column'">
-        {{ type1 }}
+      <div  class="pokemonStatus__info text-center flex flex-center ">
+        Eletric
       </div>
     <!-- Segunda característica -->
-      <div  v-bind:class="[isCorrect(type2, objLocalStoragePokemon.type2) ? 'correctClass' : 'wrongClass'] + ' circle text-center flex flex-center text-whitePokebola column'">
-          {{ type2 }}
+      <div  class="pokemonStatus__info text-center flex flex-center ">
+        Eletric
       </div>
     <!-- Peso do Pokemon-->
-      <div  v-bind:class="[isCorrect(weight, objLocalStoragePokemon.weight) ? 'correctClass' : 'wrongClass'] + ' circle text-center flex flex-center text-whitePokebola column'">
+      <div  class="pokemonStatus__info text-center flex flex-center column">
         <div>
-          {{ weight }}
+          40
         </div>
         <div>
           KG
         </div>
+        <!--
         <q-icon v-if="!isCorrect(weight, objLocalStoragePokemon.weight)" :class="[statusCondition(weight, objLocalStoragePokemon.weight) ? '':'rotate-180']+' absolute positionIcon'" name="mdi-arrow-up-circle" size="21px"/>
+        -->
       </div>
       <!-- Altura do Pokemon-->
-      <div  v-bind:class="[isCorrect(height, objLocalStoragePokemon.height) ? 'correctClass' : 'wrongClass'] + ' circle text-center flex flex-center text-whitePokebola column'">
+      <div  class="pokemonStatus__info text-center flex flex-center column">
         <div>
-          {{ height }}
+          4
         </div>
         <div>
           m
         </div>
+        <!--
         <q-icon v-if="!isCorrect(height, objLocalStoragePokemon.height)" :class="[statusCondition(height, objLocalStoragePokemon.height) ? '':'rotate-180']+' absolute positionIcon'" name="mdi-arrow-up-circle" size="21px"/>
+        -->
       </div>
-    </div>
   </div>
 </template>
 
@@ -127,6 +131,18 @@ export default {
   color: $whitePokebola;
 }
 
+.pokemonStatus__info{
+  width: 15%;
+  height: 12%;
+  font-size: clamp(8px, .7vw, 0.8rem);
+  font-weight: 600;
+  color: black;
+  background-color: #E3E3E3;
+  border: 2px solid #333;
+  border-radius: 5px;
+  box-shadow: -2px 3px 0 #888, -3px 5px 0 #333;
+}
+
 .correctClass{
   background-color: $positive !important
 }
@@ -147,8 +163,4 @@ border-radius: 50%;
   font-size: 14px;
 }
 
-.characterInfo{
-  background-color: $whitePokebola;
-  border-radius: 50px;
-}
 </style>

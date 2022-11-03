@@ -2,30 +2,38 @@
     <div class="pokedex relative-position">
       <!-- Imagem do Pokemon-->
       <img
-      v-if="pokemonarray"
       class="pokedex__pokemon absolute"
-      :src="pokemonArray.at(indexArray).image"
+      :src="url"
       />
 
       <!--Nome do pokemone e id-->
-      <div class="pokedex__data text-weight-medium absolute" v-if="pokemonarray">
+      <div class="pokedex__data text-weight-medium absolute">
         <span class="pokedex__number">
-          {{pokemonArray.at(indexArray).id}}
+          {{id}}
         </span> -
         <span class="pokedex__name text-capitalize">
-          {{pokemonArray.at(indexArray).name}}
+          {{name}}
         </span>
       </div>
 
+      <ShowChosenCharacter
+        class="pokedex__character absolute"
+        :type1="pokemonArray.type"
+        :type2="pokemonArray.type2"
+        height="25"
+        :weight="pokemonArray.weight"
+        :generation="pokemonArray.generation"
+        />
+
       <!--Seletor de pokemon-->
-      <pokemonSelector class="pokedex__selector absolute" @teste-emit = 'set'/>
+      <pokemonSelector class="pokedex__selector absolute" @teste-emit = 'setValueInArray'/>
 
       <!--Botões da pokedex-->
       <div class="pokedex__buttons absolute row ">
         <q-btn
         class="pokedex__button pokedex__button--prev col"
         label="Anterior"
-        @click="incrementIndexArray"
+        @click="decreaseIndexArray"
 
         :ripple=false
         dense
@@ -33,8 +41,7 @@
         <q-btn
         class="pokedex__button pokedex__button--next col"
         label="Próximo"
-        @click="decreaseIndexArray"
-        :disabled="indexArray === -1"
+        @click="incrementIndexArray"
         :ripple=false
         dense
         />
@@ -52,9 +59,10 @@
 
 <script>
 import { ref } from 'vue'
+import ShowChosenCharacter from 'src/components/showChosenCharacter.vue'
 import pokemonSelector from './pokemonSelector.vue'
 export default {
-  components: { pokemonSelector },
+  components: { pokemonSelector, ShowChosenCharacter },
   name: 'pokedexPokemon',
   props: {
     title: {
@@ -82,18 +90,37 @@ export default {
   },
 
   setup () {
-    const pokemonArray = ref()
-    const indexArray = ref()
+    const pokemonArray = ref([])
+    const url = ref()
+    const id = ref()
+    const name = ref()
+    const indexArray = ref(0)
 
     const incrementIndexArray = () => {
-      indexArray.value = indexArray.value + 1
+      if (indexArray.value === pokemonArray.value.length - 1) {
+        indexArray.value = 0
+      } else {
+        indexArray.value = indexArray.value + 1
+      }
+      id.value = pokemonArray.value[indexArray.value].id
+      url.value = pokemonArray.value[indexArray.value].image
+      name.value = pokemonArray.value[indexArray.value].name
+      console.log(indexArray.value, 'teste', pokemonArray.value.at(indexArray.value).id)
     }
 
     const decreaseIndexArray = () => {
-      indexArray.value = indexArray.value - 1
+      if (indexArray.value === 0) {
+        indexArray.value = pokemonArray.value.length - 1
+      } else {
+        indexArray.value = indexArray.value - 1
+      }
+      id.value = pokemonArray.value[indexArray.value].id
+      url.value = pokemonArray.value[indexArray.value].image
+      name.value = pokemonArray.value[indexArray.value].name
+      console.log(indexArray.value)
     }
 
-    const set = (val) => {
+    const setValueInArray = (val) => {
       const valor = {
         id: val.id,
         generation: val.generation_id,
@@ -104,17 +131,21 @@ export default {
         weight: (val.pokemon_v2_pokemons[0].weight * 0.1).toFixed(1).replace('.', ','),
         image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + val.id + '.png'
       }
-      indexArray.value = -1
       pokemonArray.value.push(valor)
-
-      console.log(pokemonArray.value)
+      indexArray.value = pokemonArray.value.length - 1
+      id.value = pokemonArray.value[indexArray.value].id
+      url.value = pokemonArray.value[indexArray.value].image
+      name.value = pokemonArray.value[indexArray.value].name
     }
     return {
       pokemonArray,
       indexArray,
+      id,
+      name,
+      url,
       incrementIndexArray,
       decreaseIndexArray,
-      set
+      setValueInArray
     }
   }
 }
@@ -137,16 +168,21 @@ export default {
   color: $grayPokedex;
   top: 53.8%;
   right: 25%;
-  font-size: clamp(8px, 5vw, 25px);
+  font-size: clamp(8px, 4vw, 20px);
 }
 
 .pokedex__name{
   color: $blackPokebola;
 }
 
+.pokedex__character{
+  width: 89.5%;
+  top:64%;
+  left: 9.5%;
+}
 .pokedex__selector{
   width: 72%;
-  top:65%;
+  top:73%;
   left: 9.5%;
 }
 
