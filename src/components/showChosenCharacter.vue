@@ -18,44 +18,44 @@
     -->
     <!-- Geração   v-bind:class="[isCorrect(generation, objLocalStoragePokemon.generation) ? 'correctClass' : 'wrongClass']-->
       <div  class="pokemonStatus__info text-center flex flex-center column">
-        <div>
-          1
-        </div>
-        <div>
+        <span>
+          {{generation}}
+        </span>
+        <span>
           GEN
-        </div>
+        </span>
         <!--
           <q-icon v-if="!isCorrect(generation, objLocalStoragePokemon.generation)" :class="[statusCondition(generation, objLocalStoragePokemon.generation) ? '':'rotate-180']+' absolute positionIcon'" name="mdi-arrow-up-circle" size="21px"/>
         -->
       </div>
     <!-- Primeira caracteristica -->
-      <div  class="pokemonStatus__info text-center flex flex-center ">
-        Eletric
-      </div>
+      <span  class="pokemonStatus__info text-center flex flex-center ">
+        {{type1}}
+      </span>
     <!-- Segunda característica -->
-      <div  class="pokemonStatus__info text-center flex flex-center ">
-        Eletric
-      </div>
+      <span  class="pokemonStatus__info text-center flex flex-center ">
+        {{type2}}
+      </span>
     <!-- Peso do Pokemon-->
       <div  class="pokemonStatus__info text-center flex flex-center column">
-        <div>
-          40
-        </div>
-        <div>
+        <span>
+          {{weight}}
+        </span>
+        <span>
           KG
-        </div>
+        </span>
         <!--
         <q-icon v-if="!isCorrect(weight, objLocalStoragePokemon.weight)" :class="[statusCondition(weight, objLocalStoragePokemon.weight) ? '':'rotate-180']+' absolute positionIcon'" name="mdi-arrow-up-circle" size="21px"/>
         -->
       </div>
       <!-- Altura do Pokemon-->
       <div  class="pokemonStatus__info text-center flex flex-center column">
-        <div>
-          4
-        </div>
-        <div>
+        <span>
+          {{height}}
+        </span>
+        <span>
           m
-        </div>
+        </span>
         <!--
         <q-icon v-if="!isCorrect(height, objLocalStoragePokemon.height)" :class="[statusCondition(height, objLocalStoragePokemon.height) ? '':'rotate-180']+' absolute positionIcon'" name="mdi-arrow-up-circle" size="21px"/>
         -->

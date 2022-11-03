@@ -18,23 +18,22 @@
 
       <ShowChosenCharacter
         class="pokedex__character absolute"
-        :type1="pokemonArray.type"
-        :type2="pokemonArray.type2"
-        height="25"
-        :weight="pokemonArray.weight"
-        :generation="pokemonArray.generation"
+        :type1="type"
+        :type2="type2"
+        :height="height"
+        :weight="weight"
+        :generation="generation"
         />
 
       <!--Seletor de pokemon-->
-      <pokemonSelector class="pokedex__selector absolute" @teste-emit = 'setValueInArray'/>
+      <pokemonSelector class="pokedex__selector absolute" @teste-emit = 'setValueInArray' :disable="isCorrect" />
 
       <!--Botões da pokedex-->
-      <div class="pokedex__buttons absolute row ">
+      <div class="pokedex__buttons absolute row">
         <q-btn
         class="pokedex__button pokedex__button--prev col"
         label="Anterior"
         @click="decreaseIndexArray"
-
         :ripple=false
         dense
         />
@@ -64,37 +63,20 @@ import pokemonSelector from './pokemonSelector.vue'
 export default {
   components: { pokemonSelector, ShowChosenCharacter },
   name: 'pokedexPokemon',
-  props: {
-    title: {
-      type: String
-    },
-    type1: {
-      type: String
-    },
-    type2: {
-      type: String
-    },
-    height: {
-      type: String
-    },
-    weight: {
-      type: String
-    },
-    img: {
-      type: String
-    },
-    generation: {
-      type: Number
-    }
-
-  },
 
   setup () {
     const pokemonArray = ref([])
     const url = ref()
     const id = ref()
     const name = ref()
+    const type = ref()
+    const type2 = ref()
+    const height = ref()
+    const weight = ref()
+    const generation = ref()
     const indexArray = ref(0)
+    const isCorrect = ref(false)
+    const objLocalStoragePokemon = JSON.parse(localStorage.getItem('pokemon'))
 
     const incrementIndexArray = () => {
       if (indexArray.value === pokemonArray.value.length - 1) {
@@ -105,6 +87,11 @@ export default {
       id.value = pokemonArray.value[indexArray.value].id
       url.value = pokemonArray.value[indexArray.value].image
       name.value = pokemonArray.value[indexArray.value].name
+      type.value = pokemonArray.value[indexArray.value].type
+      type2.value = pokemonArray.value[indexArray.value].type2
+      height.value = pokemonArray.value[indexArray.value].height
+      weight.value = pokemonArray.value[indexArray.value].weight
+      generation.value = pokemonArray.value[indexArray.value].generation
       console.log(indexArray.value, 'teste', pokemonArray.value.at(indexArray.value).id)
     }
 
@@ -117,6 +104,11 @@ export default {
       id.value = pokemonArray.value[indexArray.value].id
       url.value = pokemonArray.value[indexArray.value].image
       name.value = pokemonArray.value[indexArray.value].name
+      type.value = pokemonArray.value[indexArray.value].type
+      type2.value = pokemonArray.value[indexArray.value].type2
+      height.value = pokemonArray.value[indexArray.value].height
+      weight.value = pokemonArray.value[indexArray.value].weight
+      generation.value = pokemonArray.value[indexArray.value].generation
       console.log(indexArray.value)
     }
 
@@ -136,6 +128,16 @@ export default {
       id.value = pokemonArray.value[indexArray.value].id
       url.value = pokemonArray.value[indexArray.value].image
       name.value = pokemonArray.value[indexArray.value].name
+      type.value = pokemonArray.value[indexArray.value].type
+      type2.value = pokemonArray.value[indexArray.value].type2
+      height.value = pokemonArray.value[indexArray.value].height
+      weight.value = pokemonArray.value[indexArray.value].weight
+      generation.value = pokemonArray.value[indexArray.value].generation
+      console.log(id.value, objLocalStoragePokemon.id)
+      if (id.value === objLocalStoragePokemon.id) {
+        isCorrect.value = true
+      }
+      console.log(isCorrect.value)
     }
     return {
       pokemonArray,
@@ -143,6 +145,12 @@ export default {
       id,
       name,
       url,
+      type,
+      type2,
+      height,
+      weight,
+      generation,
+      isCorrect,
       incrementIndexArray,
       decreaseIndexArray,
       setValueInArray

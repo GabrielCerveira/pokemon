@@ -5,6 +5,7 @@
       bg-color="white"
       :model=model
       :options="data"
+      :disable="disable"
       placeholder="Pokemon"
       color="teal"
       use-input
@@ -54,6 +55,11 @@ import queriesPokemon from 'src/graphqlConsultas/QueriesPokemon'
 export default {
   name: 'pokemonSelector',
   emits: ['testeEmit'],
+  props: {
+    disable: {
+      type: Boolean
+    }
+  },
 
   setup () {
     const { getPokemonComplet } = queriesPokemon()
