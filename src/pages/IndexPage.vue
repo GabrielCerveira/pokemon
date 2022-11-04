@@ -75,9 +75,8 @@
       </q-scroll-area>
     </div>
     </div>-->
-  <pokedexPokemon
-
-    />
+  <pokedexPokemon/>
+  <dialogCongratulations :attempts="10"/>
   </q-page>
 </template>
 
@@ -85,11 +84,12 @@
 import { defineComponent, ref } from 'vue'
 // import ShowChosenCharacter from 'src/components/showChosenCharacter.vue'
 import pokedexPokemon from 'src/components/pokedexPokemon.vue'
+import dialogCongratulations from 'src/components/dialogCongratulations.vue'
 import queriesPokemon from 'src/graphqlConsultas/QueriesPokemon'
 
 export default defineComponent({
   name: 'IndexPage',
-  components: { /* ShowChosenCharacter, */ pokedexPokemon },
+  components: { /* ShowChosenCharacter, */ pokedexPokemon, dialogCongratulations },
 
   setup () {
     const { getPokemonComplet, getIDPokemon, getPokemonCompletID } = queriesPokemon()
