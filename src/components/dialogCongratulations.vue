@@ -18,8 +18,8 @@
         <q-separator />
 
         <q-card-actions align="right">
-          <q-btn v-close-popup flat color="primary" label="Voltar" />
-          <q-btn flat color="primary" label="Jogar novamente" />
+          <q-btn v-close-popup label="Close" color="primary" />
+          <q-btn v-close-popup flat color="primary" label="Jogar novamente" @click="$emit('playAgain',card)"/>
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -30,12 +30,17 @@ export default {
   name: 'dialogCongratulations',
   props: {
     attempts: {
-      type: String
+      type: Number
+    },
+    showCard: {
+      type: Boolean
     }
   },
-  setup () {
+  emits: ['playAgain'],
+  setup (props) {
+    console.log('to aqui')
     return {
-      card: true
+      card: props.showCard
     }
   }
 }

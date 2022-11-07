@@ -9,7 +9,7 @@
       placeholder="Pokemon"
       color="teal"
       use-input
-      hide-bottom-space="false"
+      hide-bottom-space
       hide-selected
       fill-input
       dense

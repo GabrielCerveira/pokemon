@@ -134,8 +134,10 @@ export default {
       weight.value = pokemonArray.value[indexArray.value].weight
       generation.value = pokemonArray.value[indexArray.value].generation
       console.log(id.value, objLocalStoragePokemon.id)
+      console.log(objLocalStoragePokemon.title)
       if (id.value === objLocalStoragePokemon.id) {
         isCorrect.value = true
+        localStorage.setItem('isCorrect', isCorrect.value)
       }
       console.log(isCorrect.value)
     }
