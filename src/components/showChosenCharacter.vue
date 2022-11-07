@@ -24,9 +24,9 @@
         <span>
           GEN
         </span>
-        <!--
-          <q-icon v-if="!isCorrect(generation, objLocalStoragePokemon.generation)" :class="[statusCondition(generation, objLocalStoragePokemon.generation) ? '':'rotate-180']+' absolute positionIcon'" name="mdi-arrow-up-circle" size="21px"/>
-        -->
+
+          <q-icon v-if="!isCorrect(generation, objLocalStoragePokemon.generation)" :class="[statusCondition(generation, objLocalStoragePokemon.generation) ? '':'rotate-180']+' absolute positionIcon'" name="mdi-arrow-up-circle" size="15px"/>
+
       </div>
     <!-- Primeira caracteristica -->
       <span  class="pokemonStatus__info text-center flex flex-center ">
@@ -44,9 +44,7 @@
         <span>
           KG
         </span>
-        <!--
-        <q-icon v-if="!isCorrect(weight, objLocalStoragePokemon.weight)" :class="[statusCondition(weight, objLocalStoragePokemon.weight) ? '':'rotate-180']+' absolute positionIcon'" name="mdi-arrow-up-circle" size="21px"/>
-        -->
+        <q-icon v-if="!isCorrect(weight, objLocalStoragePokemon.weight)" :class="[statusCondition(weight, objLocalStoragePokemon.weight) ? 'rotate-180':'']+' absolute positionIcon'" name="mdi-arrow-up-circle" size="15px"/>
       </div>
       <!-- Altura do Pokemon-->
       <div  class="pokemonStatus__info text-center flex flex-center column">
@@ -56,9 +54,9 @@
         <span>
           m
         </span>
-        <!--
-        <q-icon v-if="!isCorrect(height, objLocalStoragePokemon.height)" :class="[statusCondition(height, objLocalStoragePokemon.height) ? '':'rotate-180']+' absolute positionIcon'" name="mdi-arrow-up-circle" size="21px"/>
-        -->
+
+        <q-icon v-if="!isCorrect(height, objLocalStoragePokemon.height)" :class="[statusCondition(height, objLocalStoragePokemon.height) ? '':'rotate-180']+' absolute positionIcon'" name="mdi-arrow-up-circle" size="15px"/>
+
       </div>
   </div>
 </template>
@@ -106,11 +104,14 @@ export default {
 
     // Verifica se o atributo esta correto
     const isCorrect = (inputVerify, resultVerify) => {
-      if (inputVerify === resultVerify) {
-        return true
-      } else {
-        return false
+      if (typeof inputVerify !== 'undefined') {
+        if (inputVerify === resultVerify) {
+          return true
+        } else {
+          return false
+        }
       }
+      return true
     }
 
     return {
@@ -152,10 +153,12 @@ export default {
 }
 
 .positionIcon {
-margin-right: -45px;
-margin-top: -45px;
+margin-right: -46px;
+margin-top: 17px;
 background-color: red;
 border-radius: 50%;
+color: #E3E3E3;
+
 }
 
 .characterName{

@@ -63,8 +63,8 @@ import pokemonSelector from './pokemonSelector.vue'
 export default {
   components: { pokemonSelector, ShowChosenCharacter },
   name: 'pokedexPokemon',
-
-  setup () {
+  emits: 'isCorrect',
+  setup (props, { emit }) {
     const pokemonArray = ref([])
     const url = ref()
     const id = ref()
@@ -78,21 +78,24 @@ export default {
     const isCorrect = ref(false)
     const objLocalStoragePokemon = JSON.parse(localStorage.getItem('pokemon'))
 
+    const addValueArray = (index) => {
+      id.value = typeof pokemonArray.value[index] === 'undefined' ? null : pokemonArray.value[index].id
+      url.value = typeof pokemonArray.value[index] === 'undefined' ? null : pokemonArray.value[index].image
+      name.value = typeof pokemonArray.value[index] === 'undefined' ? null : pokemonArray.value[index].name
+      type.value = typeof pokemonArray.value[index] === 'undefined' ? null : pokemonArray.value[index].type
+      type2.value = typeof pokemonArray.value[index] === 'undefined' ? null : pokemonArray.value[index].type2
+      height.value = typeof pokemonArray.value[index] === 'undefined' ? null : pokemonArray.value[index].height
+      weight.value = typeof pokemonArray.value[index] === 'undefined' ? null : pokemonArray.value[index].weight
+      generation.value = typeof pokemonArray.value[index] === 'undefined' ? null : pokemonArray.value[index].generation
+    }
+
     const incrementIndexArray = () => {
       if (indexArray.value === pokemonArray.value.length - 1) {
         indexArray.value = 0
       } else {
         indexArray.value = indexArray.value + 1
       }
-      id.value = pokemonArray.value[indexArray.value].id
-      url.value = pokemonArray.value[indexArray.value].image
-      name.value = pokemonArray.value[indexArray.value].name
-      type.value = pokemonArray.value[indexArray.value].type
-      type2.value = pokemonArray.value[indexArray.value].type2
-      height.value = pokemonArray.value[indexArray.value].height
-      weight.value = pokemonArray.value[indexArray.value].weight
-      generation.value = pokemonArray.value[indexArray.value].generation
-      console.log(indexArray.value, 'teste', pokemonArray.value.at(indexArray.value).id)
+      addValueArray(indexArray.value)
     }
 
     const decreaseIndexArray = () => {
@@ -101,15 +104,7 @@ export default {
       } else {
         indexArray.value = indexArray.value - 1
       }
-      id.value = pokemonArray.value[indexArray.value].id
-      url.value = pokemonArray.value[indexArray.value].image
-      name.value = pokemonArray.value[indexArray.value].name
-      type.value = pokemonArray.value[indexArray.value].type
-      type2.value = pokemonArray.value[indexArray.value].type2
-      height.value = pokemonArray.value[indexArray.value].height
-      weight.value = pokemonArray.value[indexArray.value].weight
-      generation.value = pokemonArray.value[indexArray.value].generation
-      console.log(indexArray.value)
+      addValueArray(indexArray.value)
     }
 
     const setValueInArray = (val) => {
@@ -125,21 +120,24 @@ export default {
       }
       pokemonArray.value.push(valor)
       indexArray.value = pokemonArray.value.length - 1
-      id.value = pokemonArray.value[indexArray.value].id
-      url.value = pokemonArray.value[indexArray.value].image
-      name.value = pokemonArray.value[indexArray.value].name
-      type.value = pokemonArray.value[indexArray.value].type
-      type2.value = pokemonArray.value[indexArray.value].type2
-      height.value = pokemonArray.value[indexArray.value].height
-      weight.value = pokemonArray.value[indexArray.value].weight
-      generation.value = pokemonArray.value[indexArray.value].generation
+      addValueArray(indexArray.value)
+
       console.log(id.value, objLocalStoragePokemon.id)
       console.log(objLocalStoragePokemon.title)
       if (id.value === objLocalStoragePokemon.id) {
         isCorrect.value = true
         localStorage.setItem('isCorrect', isCorrect.value)
+        emit('isCorrect', pokemonArray.value.length)
+        resetGame()
       }
       console.log(isCorrect.value)
+    }
+
+    const resetGame = () => {
+      pokemonArray.value = []
+      isCorrect.value = false
+      indexArray.value = 0
+      addValueArray(indexArray.value)
     }
     return {
       pokemonArray,
@@ -155,7 +153,8 @@ export default {
       isCorrect,
       incrementIndexArray,
       decreaseIndexArray,
-      setValueInArray
+      setValueInArray,
+      resetGame
     }
   }
 }

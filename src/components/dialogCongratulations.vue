@@ -3,10 +3,10 @@
       <q-card class="dialog" style="width: 600px">
 
         <q-card-section class="column q-pa-xl">
-          <span class="text-h3 text-center col-12 q-my-md">
+          <span class="text-h4 text-center col-12 q-my-md">
             Parabéns, você acertou o pokemon!
           </span>
-          <span class="text-h5 col-12 q-my-md">
+          <span class="text-h6 text-center col-12 q-my-md">
             Você precisou de {{attempts}} tentativas para acertar o pokemon.
           </span>
         </q-card-section>
@@ -18,7 +18,6 @@
         <q-separator />
 
         <q-card-actions align="right">
-          <q-btn v-close-popup label="Close" color="primary" />
           <q-btn v-close-popup flat color="primary" label="Jogar novamente" @click="$emit('playAgain',card)"/>
         </q-card-actions>
       </q-card>
@@ -31,16 +30,12 @@ export default {
   props: {
     attempts: {
       type: Number
-    },
-    showCard: {
-      type: Boolean
     }
   },
   emits: ['playAgain'],
-  setup (props) {
-    console.log('to aqui')
+  setup () {
     return {
-      card: props.showCard
+      card: true
     }
   }
 }

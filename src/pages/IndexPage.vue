@@ -1,7 +1,7 @@
 <template>
   <q-page class="flex flex-center">
-    <pokedexPokemon/>
-    <dialogCongratulations :showCard="isCorrect" :attempts="10" @play-again = 'playAgain'/>
+    <pokedexPokemon @is-correct = 'setCorrect'/>
+    <dialogCongratulations v-if="isCorrect===true" :attempts="attempts" @play-again = 'playAgain'/>
   </q-page>
 </template>
 
@@ -20,11 +20,8 @@ export default defineComponent({
     const IDs = ref()
     const ID = ref()
     const pokemonSelect = ref([{}])
-    const isCorrect = ref(true)
-
-    console.log('isCorrect', isCorrect.value)
-    console.log('local', localStorage.getItem('isCorrect'))
-
+    const isCorrect = ref(false)
+    const attempts = ref()
     // Busca todos os IDs dos pokemons
     const handleGetIDPokemon = async () => {
       try {
@@ -42,7 +39,6 @@ export default defineComponent({
     const handleIDRandom2 = async () => {
       ID.value = IDs.value.pokemon_v2_pokemonspecies[Math.floor(Math.random() * IDs.value.pokemon_v2_pokemonspecies.length)]
       pokemonSelect.value = await handleGetPokemonCompletID(ID.value.id)
-      console.log('data', pokemonSelect.value)
       const valor = {
         id: pokemonSelect.value.data.pokemon_v2_pokemonspecies[0].id,
         generation: pokemonSelect.value.data.pokemon_v2_pokemonspecies[0].generation_id,
@@ -66,18 +62,21 @@ export default defineComponent({
       }
     }
 
-    const setCorrect = () => {
+    const setCorrect = (attempts1) => {
       isCorrect.value = true
+      attempts.value = attempts1
+      console.log('ext', attempts.value)
+      console.log('int', attempts1)
     }
 
-    const playAgain = (card) => {
-      localStorage.setItem('isCorrect', false)
-      console.log(isCorrect.value, card)
+    const playAgain = () => {
+      isCorrect.value = false
       handleIDRandom2()
     }
 
     return {
       isCorrect,
+      attempts,
       setCorrect,
       playAgain
     }
