@@ -29,13 +29,39 @@
 
       </div>
     <!-- Primeira caracteristica -->
-      <span  class="pokemonStatus__info text-center flex flex-center ">
-        {{type1}}
-      </span>
+      <div class="pokemonStatus__info q-pa-xs">
+        <span  class="text-center flex flex-center">
+          <img
+            :class="type1"
+            :src="'../../public/imgs/typeIcons/'+type1+'.svg'"
+            style="height: 65%; width: 65%"
+          />
+        </span>
+        <q-tooltip
+          transition-show="scale"
+          transition-hide="scale"
+        >
+          {{type1}}
+        </q-tooltip>
+        <q-icon v-if="!isCorrect(type1, objLocalStoragePokemon.type1)" :class="[isCorrect(type1, objLocalStoragePokemon.type1) ? 'rotate-180':'']+' absolute positionIcon'" name="mdi-arrow-up-circle" size="15px"/>
+      </div>
     <!-- Segunda característica -->
-      <span  class="pokemonStatus__info text-center flex flex-center ">
-        {{type2}}
-      </span>
+      <div class="pokemonStatus__info q-pa-xs">
+        <span  class="text-center flex flex-center">
+          <img
+            :class="type2"
+            :src="'../../public/imgs/typeIcons/'+type2+'.svg'"
+            style="height: 65%; width: 65%"
+          />
+        </span>
+        <q-tooltip
+          transition-show="scale"
+          transition-hide="scale"
+        >
+          {{type2}}
+        </q-tooltip>
+        <span :class="[isCorrect(type2, objLocalStoragePokemon.type2) ? 'bg-green':'bg-red']+' absolute positionIcon'" style="min-height:15px; min-width: 15px;">.</span>
+      </div>
     <!-- Peso do Pokemon-->
       <div  class="pokemonStatus__info text-center flex flex-center column">
         <span>
@@ -164,6 +190,132 @@ color: #E3E3E3;
 .characterName{
   color: $blackPokebola;
   font-size: 14px;
+}
+
+.bug {
+    background: #92BC2C;
+    box-shadow: 0 0 5px #92BC2C;
+    padding: 3px;
+    border-radius: 50%;
+}
+
+.dark {
+    background: #595761;
+    box-shadow: 0 0 5px #595761;
+    padding: 3px;
+    border-radius: 50%;
+}
+
+.dragon {
+    background: #0C69C8;
+    box-shadow: 0 0 5px #0C69C8;
+    padding: 3px;
+    border-radius: 50%;
+}
+
+.electric {
+    background: #F2D94E;
+    box-shadow: 0 0 5px #F2D94E;
+    padding: 3px;
+    border-radius: 50%;
+}
+
+.fire {
+    background: #FBA54C;
+    box-shadow: 0 0 5px #FBA54C;
+    padding: 3px;
+    border-radius: 50%;
+}
+
+.fairy {
+    background: #EE90E6;
+    box-shadow: 0 0 5px #EE90E6;
+    padding: 3px;
+    border-radius: 50%;
+}
+
+.fighting {
+    background: #D3425F;
+    box-shadow: 0 0 5px #D3425F;
+    padding: 3px;
+    border-radius: 50%;
+}
+
+.flying {
+    background: #A1BBEC;
+    box-shadow: 0 0 5px #A1BBEC;
+    padding: 3px;
+    border-radius: 50%;
+}
+
+.ghost {
+    background: #5F6DBC;
+    box-shadow: 0 0 5px #5F6DBC;
+    padding: 3px;
+    border-radius: 50%;
+}
+
+.grass {
+    background: #5FBD58;
+    box-shadow: 0 0 5px #5FBD58;
+    padding: 3px;
+    border-radius: 50%;
+}
+
+.ground {
+    background: #DA7C4D;
+    box-shadow: 0 0 5px #DA7C4D;
+    padding: 3px;
+    border-radius: 50%;
+}
+
+.ice {
+    background: #75D0C1;
+    box-shadow: 0 0 5px #75D0C1;
+    padding: 3px;
+    border-radius: 50%;
+}
+
+.normal {
+    background: #A0A29F;
+    box-shadow: 0 0 5px #A0A29F;
+    padding: 3px;
+    border-radius: 50%;
+}
+
+.poison {
+    background: #B763CF;
+    box-shadow: 0 0 5px #B763CF;
+    padding: 3px;
+    border-radius: 50%;
+}
+
+.psychic {
+    background: #FA8581;
+    box-shadow: 0 0 5px #FA8581;
+    padding: 3px;
+    border-radius: 50%;
+}
+
+.rock {
+    background: #C9BB8A;
+    box-shadow: 0 0 5px #C9BB8A;
+    padding: 3px;
+    border-radius: 50%;
+}
+
+.steel {
+    background: #5695A3;
+    box-shadow: 0 0 5px #5695A3;
+    padding: 3px;
+    border-radius: 50%;
+}
+
+.water {
+    background: #539DDF;
+    box-shadow: 0 0 5px #539DDF;
+    padding: 3px;
+    border-radius: 50%;
 }
 
 </style>
