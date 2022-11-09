@@ -26,7 +26,7 @@
         </span>
 
           <q-icon v-if="!isCorrect(generation, objLocalStoragePokemon.generation)" :class="[statusCondition(generation, objLocalStoragePokemon.generation) ? '':'rotate-180']+' absolute positionIcon'" name="mdi-arrow-up-circle" size="15px"/>
-
+          <span v-if="isCorrect(generation, objLocalStoragePokemon.generation)" class="bg-green absolute positionIcon" style="min-height:14px; min-width: 14px;"></span>
       </div>
     <!-- Primeira caracteristica -->
       <div class="pokemonStatus__info q-pa-xs">
@@ -36,6 +36,7 @@
             :src="'../../public/imgs/typeIcons/'+type1+'.svg'"
             style="height: 65%; width: 65%"
           />
+          <span :class="[isCorrect(type1, objLocalStoragePokemon.type1) ? 'bg-green':'bg-red']+' absolute positionIcon'" style="min-height:14px; min-width: 14px;"></span>
         </span>
         <q-tooltip
           transition-show="scale"
@@ -43,7 +44,6 @@
         >
           {{type1}}
         </q-tooltip>
-        <q-icon v-if="!isCorrect(type1, objLocalStoragePokemon.type1)" :class="[isCorrect(type1, objLocalStoragePokemon.type1) ? 'rotate-180':'']+' absolute positionIcon'" name="mdi-arrow-up-circle" size="15px"/>
       </div>
     <!-- Segunda característica -->
       <div class="pokemonStatus__info q-pa-xs">
@@ -53,6 +53,7 @@
             :src="'../../public/imgs/typeIcons/'+type2+'.svg'"
             style="height: 65%; width: 65%"
           />
+          <span :class="[isCorrect(type2, objLocalStoragePokemon.type2) ? 'bg-green':'bg-red']+' absolute positionIcon'" style="min-height:14px; min-width: 14px;"></span>
         </span>
         <q-tooltip
           transition-show="scale"
@@ -60,7 +61,6 @@
         >
           {{type2}}
         </q-tooltip>
-        <span :class="[isCorrect(type2, objLocalStoragePokemon.type2) ? 'bg-green':'bg-red']+' absolute positionIcon'" style="min-height:15px; min-width: 15px;">.</span>
       </div>
     <!-- Peso do Pokemon-->
       <div  class="pokemonStatus__info text-center flex flex-center column">
@@ -71,6 +71,7 @@
           KG
         </span>
         <q-icon v-if="!isCorrect(weight, objLocalStoragePokemon.weight)" :class="[statusCondition(weight, objLocalStoragePokemon.weight) ? 'rotate-180':'']+' absolute positionIcon'" name="mdi-arrow-up-circle" size="15px"/>
+        <span v-if="isCorrect(weight, objLocalStoragePokemon.weight)" class="bg-green absolute positionIcon" style="min-height:14px; min-width: 14px;"></span>
       </div>
       <!-- Altura do Pokemon-->
       <div  class="pokemonStatus__info text-center flex flex-center column">
@@ -82,7 +83,7 @@
         </span>
 
         <q-icon v-if="!isCorrect(height, objLocalStoragePokemon.height)" :class="[statusCondition(height, objLocalStoragePokemon.height) ? '':'rotate-180']+' absolute positionIcon'" name="mdi-arrow-up-circle" size="15px"/>
-
+        <span v-if="isCorrect(height, objLocalStoragePokemon.height)" class="bg-green absolute positionIcon" style="min-height:14px; min-width: 14px;"></span>
       </div>
   </div>
 </template>
